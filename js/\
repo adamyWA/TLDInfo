@@ -1,0 +1,22 @@
+
+
+$('.tld-input').bind('input', function() {
+	var tld = $('.tld-input').val();
+	var url = "/tools/tld/" + tld;
+	$.ajax({
+		method: "GET",
+		datatype: 'application/json',
+		url: url,
+		statusCode: {
+			404: function(data) {
+				console.log($.parseJSON(data))
+			}
+		}
+	}).success(function(data) {
+		var json = $.parseJSON(data);
+		$('.table-class').empty();
+		$('.table-class').append(
+		'<table class="table table-striped table-hover "><tbody><tr><td>' + Object.keys(json[0])[0] + '</td><td>' + Object.values(json[0])[0] + '</td></tr></tbody></table>' 
+		);
+	})
+});
